@@ -2,7 +2,7 @@ define bacula::config::client (
     $fileset  = 'Basic:noHome',
     $schedule = 'WeeklyCycle',
     $template = 'bacula/client_config.erb',
- ) {
+) {
 
   if ! is_domain_name($name) {
     fail "Name for client ${name} must be a fully qualified domain name"

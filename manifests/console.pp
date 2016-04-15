@@ -41,6 +41,6 @@ class bacula::console(
     require => $console_package ? {
       ''      => undef,
       default => Package['bacula-console'],
-    }
+    },
   }
 }

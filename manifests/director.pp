@@ -36,7 +36,7 @@
 #   use_console      => true,
 #   console_password => 'XXXXXX',
 # }
-class bacula::director(
+class bacula::director (
     $server,
     $password,
     $db_backend,
@@ -54,8 +54,7 @@ class bacula::director(
     $use_console,
     $console_password,
     $clients = {}
-  ) {
-
+) {
 
   $storage_name_array = split($storage_server, '[.]')
   $director_name_array = split($server, '[.]')
@@ -84,7 +83,7 @@ class bacula::director(
       ensure => installed,
     }
     File['/etc/bacula/bacula-dir.conf'] {
-      require +> Package[$director_pacakge],
+      require +> Package[$director_package],
     }
   }
 
@@ -119,13 +118,13 @@ class bacula::director(
 
   # Register the Service so we can manage it through Puppet
   service { 'bacula-director':
-    enable     => true,
     ensure     => running,
+    enable     => true,
     hasstatus  => true,
     hasrestart => true,
     require    => $db_package ? {
       ''      => undef,
       default => Package[$db_package],
-    }
+    },
   }
 }

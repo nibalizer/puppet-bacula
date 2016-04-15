@@ -95,7 +95,7 @@ class bacula::storage(
     require => $db_package ? {
       ''      => undef,
       default => Package[$db_package],
-    }
+    },
   }
 
   file { ['/mnt/bacula', '/mnt/bacula/default']:
@@ -119,13 +119,13 @@ class bacula::storage(
 
   # Register the Service so we can manage it through Puppet
   service { 'bacula-sd':
-    enable     => true,
     ensure     => running,
+    enable     => true,
     hasstatus  => true,
     hasrestart => true,
     require    => $db_package ? {
       ''      => undef,
       default => Package[$db_package],
-    }
+    },
   }
 }

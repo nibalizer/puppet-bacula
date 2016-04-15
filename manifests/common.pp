@@ -10,15 +10,16 @@
 # Sample Usage:
 #
 # class { 'bacula::common': }
-class bacula::common(
-    $packages,
-    $manage_db_tables,
-    $db_backend,
-    $db_user,
-    $db_database,
-    $db_password,
-    $db_port,
-    $db_host
+class bacula::common (
+  $packages,
+  $manage_db_tables,
+  $manage_db         = true,
+  $db_backend,
+  $db_user,
+  $db_database,
+  $db_password,
+  $db_port,
+  $db_host,
   ) {
 
   if $packages {
@@ -27,7 +28,7 @@ class bacula::common(
       notify => $manage_db_tables ? {
         true  => Exec['make_db_tables'],
         false => undef,
-      }
+      },
     }
   }
 
@@ -63,10 +64,10 @@ class bacula::common(
 
       'sqlite': {
         sqlite::db { $db_database:
+          ensure   => present,
           location => "/var/lib/bacula/${db_database}.db",
           owner    => 'bacula',
           group    => 'bacula',
-          ensure   => present,
           require  => File['/var/lib/bacula'],
         }
       }
